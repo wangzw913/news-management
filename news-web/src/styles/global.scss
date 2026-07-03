@@ -1,0 +1,48 @@
+/* ============================================================
+   新闻发布管理系统 v3 —— 全局样式（区别于 v2 的新设计）
+   ============================================================ */
+
+:root {
+  --primary: #6366F1;
+  --primary-dark: #4F46E5;
+  --primary-light: #EEF2FF;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --text: #1E293B;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
+  --border: #E2E8F0;
+  --bg: #F1F5F9;
+  --card: #FFFFFF;
+  --sidebar-bg: #0F172A;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 24px rgba(0,0,0,.08);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,.12);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, "Microsoft YaHei", "PingFang SC", "Inter", sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: none; }
+
+/* Element Plus color overrides */
+:root {
+  --el-color-primary: #6366F1;
+  --el-color-primary-light-3: #818CF8;
+  --el-color-primary-light-5: #A5B4FC;
+  --el-color-primary-light-7: #C7D2FE;
+  --el-color-primary-light-9: #EEF2FF;
+  --el-border-radius-base: 8px;
+}

@@ -1,0 +1,25 @@
+# Maven
+news-server/target/
+
+# Node
+news-web/node_modules/
+news-web/dist/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploaded files (keep directory, ignore contents)
+6_uploads/images/*
+!6_uploads/images/.gitkeep
+
+# Temporary
+*.log
+*.tmp
+maven.zip
+redis.zip

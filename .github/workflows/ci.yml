@@ -1,0 +1,95 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ===== 后端构建 + 测试 =====
+  backend:
+    name: Backend Build & Test
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root123
+          MYSQL_DATABASE: news_v3
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run Tests
+        run: cd news-server && mvn test -B
+
+      - name: Build JAR
+        run: cd news-server && mvn package -DskipTests -B
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: news-server-jar
+          path: news-server/target/*.jar
+
+  # ===== 前端构建 =====
+  frontend:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: news-web/package-lock.json
+
+      - name: Install Dependencies
+        run: cd news-web && npm ci
+
+      - name: Build
+        run: cd news-web && npm run build
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: news-web-dist
+          path: news-web/dist/
+
+  # ===== Docker 构建 =====
+  docker:
+    name: Docker Build & Push
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+
+      - name: Build Server Docker Image
+        run: docker build -t news-server:latest ./news-server
+
+      - name: Build Web Docker Image
+        run: docker build -t news-web:latest ./news-web
+
+      # Push to registry (需配置 Docker Hub / 阿里云 ACR 密钥)
+      # - name: Push Images
+      #   run: |
+      #     docker tag news-server:latest registry.example.com/news-server:latest
+      #     docker push registry.example.com/news-server:latest

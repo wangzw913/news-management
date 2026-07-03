@@ -1,0 +1,25 @@
+# Docker 环境配置
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/news_v3?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Shanghai
+    username: root
+    password: root123
+
+  data:
+    redis:
+      host: redis
+      password: redis123
+
+  elasticsearch:
+    uris: http://elasticsearch:9200
+
+minio:
+  endpoint: http://minio:9000
+
+news:
+  search:
+    fallback-to-mysql: false

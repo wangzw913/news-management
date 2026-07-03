@@ -1,0 +1,28 @@
+# 开发环境配置
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  # 开发环境禁用 Redis 和 ES（本地没装）
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchAutoConfiguration
+      - org.springframework.boot.autoconfigure.websocket.servlet.WebSocketAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+
+  # Dev profile uses local file storage instead of MinIO
+  elasticsearch:
+    uris: http://localhost:9200
+
+# 开发环境关闭 ES 强制要求，WebSocket 手动启用
+news:
+  search:
+    fallback-to-mysql: true
+  websocket:
+    enabled: false
+
+logging:
+  level:
+    com.example.news: debug
