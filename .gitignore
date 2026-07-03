@@ -18,6 +18,10 @@ Thumbs.db
 6_uploads/images/*
 !6_uploads/images/.gitkeep
 
+# Generated (large files, can be regenerated from docs/)
+*.pdf
+保研面试学习指南.html
+
 # Temporary
 *.log
 *.tmp
